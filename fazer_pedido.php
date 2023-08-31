@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $pagamento = isset($_POST["pagamento"]) ? $_POST["pagamento"] : ''; 
 $troco = isset($_POST["troco"]) ? $_POST["troco"] : ''; 
 $comprovantePix = ''; 
-$sqlPedidoInsert = "INSERT INTO pedidos (id_cliente, data_pedido, pagamento, troco, comprovante_pix) VALUES ('{$_SESSION['id']}', CURRENT_TIMESTAMP, '$pagamento', '$troco', '$comprovantePix')";
+$sqlPedidoInsert = "INSERT INTO pedidos (id_cliente, data_pedido, pagamento, troco, comprovante_pix) VALUES (10, CURRENT_TIMESTAMP, '$pagamento', '$troco', '$comprovantePix')";
 $resultPedidoInsert = $conn->query($sqlPedidoInsert);
 
 ?>
