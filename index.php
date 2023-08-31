@@ -1,10 +1,10 @@
 <?php 
 include("includes/db.php");
-    $sql="SELECT * FROM produtos";
-    $resultado = $conn->query($sql);
-
-    $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
+$sql = "SELECT * FROM produtos";
+$resultado = $conn->query($sql);
+$produtos = $resultado->fetch_all(MYSQLI_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +12,6 @@ include("includes/db.php");
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <form action="index.php" method="get">
     <header>
         <h1>Bem-vindo ao PiscoCoast</h1>
     </header>
@@ -21,23 +20,22 @@ include("includes/db.php");
         <ul>
             <?php foreach($produtos as $produto) :?>
                 <?php if($produto['tipo']=="lanche") : ?>
-                <a href="">
+                <a href="fazer_pedido.php?produto_id=<?php echo $produto['id']; ?>">
                     <div class="box">
                     <img src="<?php echo $produto['imagem']?>" alt="Imagem do Produto">
                         <p><?php echo $produto['nome'];?></p>
                         <p><?php echo $produto['descricao']?></p>
                         <p>R$ <?php echo $produto['preco']?></p>
-
                     </div>
                 </a>
                 <?php endif?>
-                <?php endforeach ?>
+            <?php endforeach ?>
         </ul>
-            <h2>Bebidas</h2>
-            <ul>
+        <h2>Bebidas</h2>
+        <ul>
             <?php foreach($produtos as $produts) : ?>
-            <?php  if($produts['tipo']=="bebida") : ?>
-                <a href="">
+            <?php if($produts['tipo']=="bebida") : ?>
+                <a href="fazer_pedido.php?produto_id=<?php echo $produts['id']; ?>">
                     <div class="box">
                     <img src="<?php echo $produts['imagem']?>" alt="Imagem do Produto">
                         <p><?php echo $produts['nome'];?></p>
@@ -52,6 +50,5 @@ include("includes/db.php");
     <footer>
         <p>&copy; 2023 Pisco-Coast. Todos os direitos reservados.</p>
     </footer>
-    </form>
 </body>
 </html>

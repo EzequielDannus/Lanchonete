@@ -1,3 +1,45 @@
+<?php
+include("includes/db.php");
+
+if(isset($_GET['produto_id'])) {
+    $produtoId = $_GET['produto_id'];
+
+
+    $sqlProduto = "SELECT * FROM produtos WHERE id = $produtoId";
+    $resultProduto = $conn->query($sqlProduto);
+
+    if($resultProduto->num_rows == 1) {
+        $rowProduto = $resultProduto->fetch_assoc();
+
+
+        $sqlIngredientes = "SELECT i.id, i.nome FROM ingredientes i
+                            JOIN lanche_ingredientes li ON i.id = li.id_ingrediente
+                            WHERE li.id_lanche = $produtoId";
+        $resultIngredientes = $conn->query($sqlIngredientes);
+        $ingredientes = $resultIngredientes->fetch_all(MYSQLI_ASSOC);
+    } else {
+
+        header("Location: index.php");
+        exit();
+    }
+} else {
+
+    header("Location: index.php");
+    exit();
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(isset($_POST['remover_ingredientes'])) {
+        $ingredientesRemover = $_POST['remover_ingredientes'];
+        foreach($ingredientesRemover as $idIngrediente) {
+
+        }
+    }
+
+    echo "Pedido realizado com sucesso!";
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +50,28 @@
     <header>
         <h1>Fazer Pedido</h1>
     </header>
-    <form method="post" action="processar_pedido.php">
+    <form method="post" action="fazer_pedido.php?produto_id=<?php echo $produtoId; ?>">
+ 
+        <h2>Lanche Selecionado</h2>
+        <p>Nome: <?php echo $rowProduto['nome']; ?></p>
+        <p>Preço: R$ <?php echo $rowProduto['preco']; ?></p>
+        <p>Descrição: <?php echo $rowProduto['descricao']; ?></p>
+
+      
+        <h2>Remover Ingredientes</h2>
+        <?php if (!empty($ingredientes)) : ?>
+            <ul>
+                <?php foreach ($ingredientes as $ingrediente) : ?>
+                    <li>
+                        <input type="checkbox" name="remover_ingredientes[]" value="<?php echo $ingrediente['id']; ?>">
+                        <?php echo $ingrediente['nome']; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else : ?>
+            <p>Não há ingredientes para remover deste lanche.</p>
+        <?php endif; ?>
+
         <label for="nome">Nome:</label>
         <input type="text" name="nome" required><br>
         <label for="endereco">Endereço:</label>
@@ -37,40 +100,7 @@
         </select><br>
         <label for="troco">Troco (se aplicável):</label>
         <input type="text" name="troco"><br>
-        
-        <!-- Recuperar os produtos do banco de dados -->
-        <?php
-        $sqlProdutos = "SELECT * FROM produtos";
-        $resultProdutos = $conn->query($sqlProdutos);
 
-        if ($resultProdutos->num_rows > 0) {
-            echo "<ul>";
-            while ($rowProduto = $resultProdutos->fetch_assoc()) {
-                echo "<li>";
-                echo "<label>{$rowProduto['nome']} - {$rowProduto['preco']}</label>";
-                echo "<input type='number' name='produtos[{$rowProduto['id']}]' min='0'><br>";
-
-                // Lista de ingredientes para este produto
-                $sqlIngredientes = "SELECT * FROM lanche_ingredientes WHERE id_lanche = {$rowProduto['id']}";
-                $resultIngredientes = $conn->query($sqlIngredientes);
-
-                if ($resultIngredientes->num_rows > 0) {
-                    echo "<ul>";
-                    while ($rowIngrediente = $resultIngredientes->fetch_assoc()) {
-                        echo "<li>";
-                        echo "<input type='checkbox' name='remover_ingredientes[{$rowProduto['id']}][{$rowIngrediente['id_ingrediente']}]'>";
-                        echo "{$rowIngrediente['nome_ingrediente']}";
-                        echo "</li>";
-                    }
-                    echo "</ul>";
-                }
-
-                echo "</li>";
-            }
-            echo "</ul>";
-        }
-        ?>
-        
         <input type="submit" value="Enviar Pedido">
     </form>
     <footer>
