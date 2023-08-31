@@ -32,7 +32,7 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
             <ul class="box">
                 <?php foreach ($produtos as $produto) : ?>
                     <?php if ($produto['tipo'] == "lanche") : ?>
-
+                        <a href="fazer_pedido.php?produto_id=<?php echo $produto['id'];?>">
                         <div class="food-container">
                             <img src="<?php echo $produto['imagem'] ?>" alt="Imagem do Produto">
                             <div class="description">
@@ -42,7 +42,7 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
                             </div>
                         </div>
                         <div class="division"></div>
-
+                        </a>
                     <?php endif ?>
                 <?php endforeach ?>
             </ul>
@@ -53,7 +53,7 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
             <ul class="box">
                 <?php foreach ($produtos as $produts) : ?>
                     <?php if ($produts['tipo'] == "bebida") : ?>
-
+                        <a href="fazer_pedido.php?produto_id=<?php echo $produto['id'];?>">
                         <div class="food-container">
                             <img src="<?php echo $produts['imagem'] ?>" alt="Imagem do Produto">
                             <div class="description">
@@ -63,7 +63,7 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
                             </div>
                         </div>
                         <div class="division"></div>
-
+                        </a>
                     <?php endif ?>
                 <?php endforeach ?>
             </ul>
