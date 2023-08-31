@@ -1,6 +1,8 @@
 <?php
 include "includes/db.php"; 
-
+if(!isset($_SESSION['id'])){
+    header("location: login.php");
+}
 $sql = "SELECT nome, id_produto, SUM(vendas.quantidade) AS total_vendido
         FROM vendas
         JOIN produtos ON produtos.id = vendas.id_produto

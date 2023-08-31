@@ -1,7 +1,9 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once("includes/db.php");
-
+    if(!isset($_SESSION['id'])){
+        header("location: login.php");
+}
     $nome = $_POST["nome"];
     $quantidade = $_POST["quantidade"];
 
@@ -36,7 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="submit" value="Cadastrar">
     </form>
     <footer>
-        <p>&copy; 2023 LancheFácil. Todos os direitos reservados.</p>
     </footer>
     
 </body>
