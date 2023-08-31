@@ -32,26 +32,17 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
             </div>
             <ul class="box">
                 <?php foreach ($produtos as $produto) : ?>
-                    <?php if ($produto['tipo'] == "lanche") : ?>    
-
-                        <?php
-                        if (isset($_SESSION['id'])) {
-                            echo "<a href='fazer_pedido.php?produto_id={$produto['id']}'>";
-                        } else {
-                            echo "<a href='login.php'>";
-                        }
-                        ?>
+                    <?php if ($produto['tipo'] == "lanche") : ?>   
                         <div class="food-container">
                             <img src="<?php echo $produto['imagem'] ?>" alt="Imagem do Produto">
                             <div class="description">
                                 <p class="food-title"><?php echo $produto['nome']; ?></p>
                                 <p class="food-desc"><?php echo $produto['descricao'] ?></p>
                                 <p class="food-price">R$ <?php echo $produto['preco'] ?></p>
+                                <button>Adicionar no Carrinho</button>
                             </div>
                         </div>
                         <div class="division"></div>
-                        </a>
-
                     <?php endif ?>
                 <?php endforeach ?>
             </ul>
@@ -62,17 +53,16 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
             <ul class="box">
                 <?php foreach ($produtos as $produts) : ?>
                     <?php if ($produts['tipo'] == "bebida") : ?>
-                        <a href="fazer_pedido.php?produto_id=<?php echo $produto['id'];?>">
                         <div class="food-container">
                             <img src="<?php echo $produts['imagem'] ?>" alt="Imagem do Produto">
                             <div class="description">
                                 <p class="food-title"><?php echo $produts['nome']; ?></p>
                                 <p class="food-desc"><?php echo $produts['descricao'] ?></p>
                                 <p class="food-price">R$ <?php echo $produts['preco'] ?></p>
+                                <button>Adicionar no Carrinho</button>
                             </div>
                         </div>
                         <div class="division"></div>
-                        </a>
                     <?php endif ?>
                 <?php endforeach ?>
             </ul>
