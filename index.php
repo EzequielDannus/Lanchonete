@@ -1,5 +1,6 @@
 <?php
 include("includes/db.php");
+
 $sql = "SELECT * FROM produtos";
 $resultado = $conn->query($sql);
 
@@ -31,8 +32,15 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
             </div>
             <ul class="box">
                 <?php foreach ($produtos as $produto) : ?>
-                    <?php if ($produto['tipo'] == "lanche") : ?>
-                        <a href="fazer_pedido.php?produto_id=<?php echo $produto['id'];?>">
+                    <?php if ($produto['tipo'] == "lanche") : ?>    
+
+                        <?php
+                        if(!isset($_SESSION['id'])){
+                            echo "<a href=login.php>";
+                        }
+                         else{
+                         echo "<a href=fazer_pedido.php?produto_id=<?php {$produto['id']}";
+                         } ?>
                         <div class="food-container">
                             <img src="<?php echo $produto['imagem'] ?>" alt="Imagem do Produto">
                             <div class="description">
