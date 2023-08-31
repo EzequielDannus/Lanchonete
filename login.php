@@ -1,14 +1,15 @@
 <?php
+
 include("includes/db.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
-    $email = mysqli_real_escape_string($conn, $email); 
+    $email = mysqli_real_escape_string($conn, $email);
     $senha = mysqli_real_escape_string($conn, $senha);
 
-    $sql = "SELECT * FROM clientes WHERE email = '$email' AND senha = '$senha'";
+    $sql = "SELECT * FROM clientes WHERE email = '$email'";
     $resultado = $conn->query($sql);
 
     if ($resultado) {
@@ -16,18 +17,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (count($usuarios) == 0) {
             header("location: register.php");
-            exit(); 
+            exit();
         } else {
-            $_SESSION['id'] = $usuarios[0]['id'];
-            header("location: index.php");
-            exit(); 
+            $hashSenhaArmazenada = $usuarios[0]['senha'];
+
+            if (password_verify($senha, $hashSenhaArmazenada)) {
+                $_SESSION['id'] = $usuarios[0]['id'];
+                header("location: index.php");
+                exit();
+            } else {
+                echo "Senha incorreta.";
+            }
         }
     } else {
         echo "Erro ao executar a consulta: " . $conn->error;
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 
@@ -42,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1>Pisco Coast</h1>
             <h1>Login</h1>
         </header>
-        <form method="post" action="processar_login.php">
+        <form method="post" action="login.php">
             <label for="email">Email:</label>
             <input type="email" name="email" required><br>
             <label for="senha">Senha:</label>

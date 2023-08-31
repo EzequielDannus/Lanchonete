@@ -11,7 +11,6 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
 
 <head>
     <title>Pisco-Coast</title>
-    <link rel="stylesheet" href="css/style.css">
 </head>
 
 
@@ -21,6 +20,7 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
             <div class="titles">
                 <div class="maintitle">
                     <h1>Bem-vindo ao PiscoCoast</h1>
+                    <a href="logout.php">logout</a>
                 </div>
                 <div class="title">
                     <h2>Lanches</h2>
@@ -35,12 +35,12 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
                     <?php if ($produto['tipo'] == "lanche") : ?>    
 
                         <?php
-                        if(!isset($_SESSION['id'])){
-                            echo "<a href=login.php>";
+                        if (isset($_SESSION['id'])) {
+                            echo "<a href='fazer_pedido.php?produto_id={$produto['id']}'>";
+                        } else {
+                            echo "<a href='login.php'>";
                         }
-                         else{
-                         echo "<a href=fazer_pedido.php?produto_id=<?php {$produto['id']}";
-                         } ?>
+                        ?>
                         <div class="food-container">
                             <img src="<?php echo $produto['imagem'] ?>" alt="Imagem do Produto">
                             <div class="description">
@@ -51,6 +51,7 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
                         </div>
                         <div class="division"></div>
                         </a>
+
                     <?php endif ?>
                 <?php endforeach ?>
             </ul>

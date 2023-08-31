@@ -1,5 +1,8 @@
 <?php
 include("includes/db.php");
+$pagamento = isset($_POST["pagamento"]) ? $_POST["pagamento"] : '';
+$troco = isset($_POST["troco"]) ? $_POST["troco"] : '';
+$comprovantePix = isset($_POST["comprovante_pix"]) ? $_POST["comprovante_pix"] : '';
 
 if(isset($_GET['produto_id'])) {
     $produtoId = $_GET['produto_id'];
@@ -7,6 +10,11 @@ if(isset($_GET['produto_id'])) {
 
     $sqlProduto = "SELECT * FROM produtos WHERE id = $produtoId";
     $resultProduto = $conn->query($sqlProduto);
+
+    
+    $sqlPedidoInsert = "INSERT INTO pedidos (id_cliente,id_produtos ,data_pedido, pagamento, troco, comprovante_pix) VALUES (?, ?, CURRENT_TIMESTAMP, ?, ?, ?)";
+    $stmtPedidoInsert = $conn->prepare($sqlPedidoInsert);
+    $stmtPedidoInsert->bind_param("iisss", $_SESSION['id'], $produtoId, $pagamento, $troco, $comprovantePix);
 
     if($resultProduto->num_rows == 1) {
         $rowProduto = $resultProduto->fetch_assoc();
@@ -28,7 +36,6 @@ if(isset($_GET['produto_id'])) {
     exit();
 }
 
-// ...
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST['remover_ingredientes'])) {
         $ingredientesRemover = $_POST['remover_ingredientes'];
@@ -37,14 +44,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    echo "Pedido realizado com sucesso!";
 }
 
 $pagamento = isset($_POST["pagamento"]) ? $_POST["pagamento"] : ''; 
 $troco = isset($_POST["troco"]) ? $_POST["troco"] : ''; 
-$comprovantePix = ''; 
-$sqlPedidoInsert = "INSERT INTO pedidos (id_cliente, data_pedido, pagamento, troco, comprovante_pix) VALUES (10, CURRENT_TIMESTAMP, '$pagamento', '$troco', '$comprovantePix')";
-$resultPedidoInsert = $conn->query($sqlPedidoInsert);
+$comprovantePix = $pagamento ; 
+
+
+if ($stmtPedidoInsert->execute()) {
+    $pedidoId = $stmtPedidoInsert->insert_id; // Obtém o ID do pedido recém-inserido
+    // ...
+} else {
+    echo "Erro ao inserir pedido: " . $stmtPedidoInsert->error;
+}
+$stmtPedidoInsert->close();
 
 ?>
 
@@ -106,7 +119,7 @@ $resultPedidoInsert = $conn->query($sqlPedidoInsert);
         <label for="troco">Troco (se aplicável):</label>
         <input type="text" name="troco"><br>
 
-        <input type="submit" value="Enviar Pedido">
+        <a href="index.php"><input type="submit" value="Enviar Pedido"></a>
     </form>
     <footer>
         <p>&copy; 2023 LancheFácil. Todos os direitos reservados.</p>

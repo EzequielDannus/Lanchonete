@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1>Pisco Coast</h1>
             <h1>Registre-se</h1>
         </header>
-        <form method="post" action="processar_registro.php" style="font-weight: bold;">
+        <form method="post" action="register.php" style="font-weight: bold;">
             <label for="nome">Nome:</label>
             <input type="text" name="nome"><br>
             <label for="cpf">CPF:</label>
