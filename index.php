@@ -21,9 +21,15 @@ include("includes/db.php");
         <ul>
             <?php foreach($produtos as $produto) :?>
                 <?php if($produto['tipo']=="lanche") : ?>
-                <div class="box">
-                    <p><?php echo $produto['nome'];?></p>
-                </div>
+                <a href="">
+                    <div class="box">
+                    <img src="<?php echo $produto['imagem']?>" alt="Imagem do Produto">
+                        <p><?php echo $produto['nome'];?></p>
+                        <p><?php echo $produto['descricao']?></p>
+                        <p>R$ <?php echo $produto['preco']?></p>
+
+                    </div>
+                </a>
                 <?php endif?>
                 <?php endforeach ?>
         </ul>
@@ -31,9 +37,14 @@ include("includes/db.php");
             <ul>
             <?php foreach($produtos as $produts) : ?>
             <?php  if($produts['tipo']=="bebida") : ?>
-                <div class="box">
-                    <p><?php echo $produts['nome'];?></p>
-                </div>
+                <a href="">
+                    <div class="box">
+                    <img src="<?php echo $produts['imagem']?>" alt="Imagem do Produto">
+                        <p><?php echo $produts['nome'];?></p>
+                        <p><?php echo $produts['descricao']?></p>
+                        <p>R$ <?php echo $produts['preco']?></p>
+                    </div>
+                </a>
             <?php endif ?>
             <?php endforeach ?>
         </ul>

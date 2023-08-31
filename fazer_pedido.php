@@ -1,32 +1,3 @@
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    require_once("includes/db.php");
-
-    $nome = $_POST["nome"];
-    $endereco = $_POST["endereco"];
-    $pagamento = $_POST["pagamento"];
-    $troco = isset($_POST["troco"]) ? $_POST["troco"] : null;
-
-    // Processar a inserção do pedido no banco de dados
-    $sql = "INSERT INTO pedidos (id_cliente, pagamento, troco) VALUES ($idCliente, '$pagamento', $troco)";
-    $resultado = $conn->query($sql);
-
-    if ($resultado) {
-        // Inserir produtos associados ao pedido na tabela pedido_produtos
-        $idPedido = $conn->insert_id;
-        foreach ($_POST["produtos"] as $idProduto => $quantidade) {
-            $sqlProduto = "INSERT INTO pedido_produtos (id_pedido, id_produto, quantidade) VALUES ($idPedido, $idProduto, $quantidade)";
-            $conn->query($sqlProduto);
-        }
-
-        echo "Pedido realizado com sucesso!";
-    } else {
-        echo "Erro ao realizar o pedido: " . $conn->error;
-    }
-
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,11 +8,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <header>
         <h1>Fazer Pedido</h1>
     </header>
-    <form method="post" action="fazer_pedido.php">
+    <form method="post" action="processar_pedido.php">
         <label for="nome">Nome:</label>
         <input type="text" name="nome" required><br>
         <label for="endereco">Endereço:</label>
         <?php
+        require_once("includes/db.php");
+
         if (isset($_SESSION["user_id"])) {
             $userId = $_SESSION["user_id"];
             $sql = "SELECT endereco FROM clientes WHERE id = $userId";
@@ -55,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "<textarea name='endereco' required></textarea><br>";
         }
+
         ?>
         <label for="pagamento">Forma de Pagamento:</label>
         <select name="pagamento" required>
@@ -63,7 +37,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </select><br>
         <label for="troco">Troco (se aplicável):</label>
         <input type="text" name="troco"><br>
-        <!-- Outros campos de seleção de produtos, quantidade, etc. -->
+        
+        <!-- Recuperar os produtos do banco de dados -->
+        <?php
+        $sqlProdutos = "SELECT * FROM produtos";
+        $resultProdutos = $conn->query($sqlProdutos);
+
+        if ($resultProdutos->num_rows > 0) {
+            echo "<ul>";
+            while ($rowProduto = $resultProdutos->fetch_assoc()) {
+                echo "<li>";
+                echo "<label>{$rowProduto['nome']} - {$rowProduto['preco']}</label>";
+                echo "<input type='number' name='produtos[{$rowProduto['id']}]' min='0'><br>";
+
+                // Lista de ingredientes para este produto
+                $sqlIngredientes = "SELECT * FROM lanche_ingredientes WHERE id_lanche = {$rowProduto['id']}";
+                $resultIngredientes = $conn->query($sqlIngredientes);
+
+                if ($resultIngredientes->num_rows > 0) {
+                    echo "<ul>";
+                    while ($rowIngrediente = $resultIngredientes->fetch_assoc()) {
+                        echo "<li>";
+                        echo "<input type='checkbox' name='remover_ingredientes[{$rowProduto['id']}][{$rowIngrediente['id_ingrediente']}]'>";
+                        echo "{$rowIngrediente['nome_ingrediente']}";
+                        echo "</li>";
+                    }
+                    echo "</ul>";
+                }
+
+                echo "</li>";
+            }
+            echo "</ul>";
+        }
+        ?>
+        
         <input type="submit" value="Enviar Pedido">
     </form>
     <footer>
