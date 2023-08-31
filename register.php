@@ -17,6 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Erro ao registrar: " . $conn->error;
     }
 
+    header("location: login.php");
+
     $conn->close();
 }
 ?>
@@ -31,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <header>
         <h1>Registro</h1>
     </header>
-    <form method="post" action="processar_registro.php">
+    <form method="post" action="register.php">
         <label for="nome">Nome:</label>
         <input type="text" name="nome" required><br>
         <label for="cpf">CPF:</label>
@@ -42,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="email" name="email" required><br>
         <label for="senha">Senha:</label>
         <input type="password" name="senha" required><br>
-        <input type="submit" value="Registrar">
+        <a href="login.php"><input type="submit" value="Registrar"></a>
     </form>
     <footer>
         <p>&copy; 2023 LancheFácil. Todos os direitos reservados.</p>

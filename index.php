@@ -16,6 +16,7 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
         <h1>Bem-vindo ao PiscoCoast</h1>
     </header>
     <nav>
+        
         <h2>Lanches</h2>
         <ul>
             <?php foreach($produtos as $produto) :?>

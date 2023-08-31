@@ -28,6 +28,7 @@ if(isset($_GET['produto_id'])) {
     exit();
 }
 
+// ...
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(isset($_POST['remover_ingredientes'])) {
         $ingredientesRemover = $_POST['remover_ingredientes'];
@@ -38,6 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     echo "Pedido realizado com sucesso!";
 }
+
+$pagamento = isset($_POST["pagamento"]) ? $_POST["pagamento"] : ''; 
+$troco = isset($_POST["troco"]) ? $_POST["troco"] : ''; 
+$comprovantePix = ''; 
+$sqlPedidoInsert = "INSERT INTO pedidos (id_cliente, data_pedido, pagamento, troco, comprovante_pix) VALUES ('{$_SESSION['id']}', CURRENT_TIMESTAMP, '$pagamento', '$troco', '$comprovantePix')";
+$resultPedidoInsert = $conn->query($sqlPedidoInsert);
+
 ?>
 
 <!DOCTYPE html>
@@ -72,9 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>Não há ingredientes para remover deste lanche.</p>
         <?php endif; ?>
 
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" required><br>
-        <label for="endereco">Endereço:</label>
         <?php
         require_once("includes/db.php");
 
