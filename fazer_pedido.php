@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $pagamento = isset($_POST["pagamento"]) ? $_POST["pagamento"] : ''; 
 $troco = isset($_POST["troco"]) ? $_POST["troco"] : ''; 
-$comprovantePix = $pagamento ; 
+$comprovantePix =  $rowProduto['preco']; 
 
 
 if ($stmtPedidoInsert->execute()) {
@@ -74,6 +74,7 @@ $stmtPedidoInsert->close();
     <form method="post" action="fazer_pedido.php?produto_id=<?php echo $produtoId; ?>">
  
         <h2>Lanche Selecionado</h2>
+        <img src="<?php echo $rowProduto['imagem']; ?>" alt="imagem produto">
         <p>Nome: <?php echo $rowProduto['nome']; ?></p>
         <p>Preço: R$ <?php echo $rowProduto['preco']; ?></p>
         <p>Descrição: <?php echo $rowProduto['descricao']; ?></p>
