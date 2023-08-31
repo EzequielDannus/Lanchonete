@@ -1,63 +1,7 @@
 <?php
 include("includes/db.php");
-$pagamento = isset($_POST["pagamento"]) ? $_POST["pagamento"] : '';
-$troco = isset($_POST["troco"]) ? $_POST["troco"] : '';
-$comprovantePix = isset($_POST["comprovante_pix"]) ? $_POST["comprovante_pix"] : '';
 
-if(isset($_GET['produto_id'])) {
-    $produtoId = $_GET['produto_id'];
-
-
-    $sqlProduto = "SELECT * FROM produtos WHERE id = $produtoId";
-    $resultProduto = $conn->query($sqlProduto);
-
-    
-    $sqlPedidoInsert = "INSERT INTO pedidos (id_cliente,id_produtos ,data_pedido, pagamento, troco, comprovante_pix) VALUES (?, ?, CURRENT_TIMESTAMP, ?, ?, ?)";
-    $stmtPedidoInsert = $conn->prepare($sqlPedidoInsert);
-    $stmtPedidoInsert->bind_param("iisss", $_SESSION['id'], $produtoId, $pagamento, $troco, $comprovantePix);
-
-    if($resultProduto->num_rows == 1) {
-        $rowProduto = $resultProduto->fetch_assoc();
-
-
-        $sqlIngredientes = "SELECT i.id, i.nome FROM ingredientes i
-                            JOIN lanche_ingredientes li ON i.id = li.id_ingrediente
-                            WHERE li.id_lanche = $produtoId";
-        $resultIngredientes = $conn->query($sqlIngredientes);
-        $ingredientes = $resultIngredientes->fetch_all(MYSQLI_ASSOC);
-    } else {
-
-        header("Location: index.php");
-        exit();
-    }
-} else {
-
-    header("Location: index.php");
-    exit();
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST['remover_ingredientes'])) {
-        $ingredientesRemover = $_POST['remover_ingredientes'];
-        foreach($ingredientesRemover as $idIngrediente) {
-
-        }
-    }
-
-}
-
-$pagamento = isset($_POST["pagamento"]) ? $_POST["pagamento"] : ''; 
-$troco = isset($_POST["troco"]) ? $_POST["troco"] : ''; 
-$comprovantePix =  $rowProduto['preco']; 
-
-
-if ($stmtPedidoInsert->execute()) {
-    $pedidoId = $stmtPedidoInsert->insert_id; // Obtém o ID do pedido recém-inserido
-    // ...
-} else {
-    echo "Erro ao inserir pedido: " . $stmtPedidoInsert->error;
-}
-$stmtPedidoInsert->close();
+$sql = "SELECT * FROM carrinho WHERE {$_SESSION['id']} = id_cliente"
 
 ?>
 
@@ -74,6 +18,7 @@ $stmtPedidoInsert->close();
     <form method="post" action="fazer_pedido.php?produto_id=<?php echo $produtoId; ?>">
  
         <h2>Lanche Selecionado</h2>
+
         <img src="<?php echo $rowProduto['imagem']; ?>" alt="imagem produto">
         <p>Nome: <?php echo $rowProduto['nome']; ?></p>
         <p>Preço: R$ <?php echo $rowProduto['preco']; ?></p>

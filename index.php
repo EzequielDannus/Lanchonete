@@ -1,6 +1,16 @@
 <?php
 include("includes/db.php");
 
+// Verifique se o formulário foi enviado e o botão "adicionar_carrinho" foi clicado
+if (isset($_GET['adicionar_carrinho'])) {
+    $produto_id = $_GET['id'];
+
+
+    $sqlcarrinho = "INSERT INTO carrinho (id_cliente, id_produto) VALUES ({$_SESSION['id']}, $produto_id)";
+    $resultado = $conn->query($sqlcarrinho);
+
+}
+
 $sql = "SELECT * FROM produtos";
 $resultado = $conn->query($sql);
 
@@ -13,14 +23,14 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
     <title>Pisco-Coast</title>
 </head>
 
-
 <body>
     <form action="index.php" method="get">
         <header>
             <div class="titles">
                 <div class="maintitle">
+                    <a href="">Cart</a>
                     <h1>Bem-vindo ao PiscoCoast</h1>
-                    <a href="logout.php">logout</a>
+                    <a class="logout" href="logout.php">logout</a>
                 </div>
                 <div class="title">
                     <h2>Lanches</h2>
@@ -32,14 +42,22 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
             </div>
             <ul class="box">
                 <?php foreach ($produtos as $produto) : ?>
-                    <?php if ($produto['tipo'] == "lanche") : ?>   
+                    <?php if ($produto['tipo'] == "lanche") : ?>
                         <div class="food-container">
                             <img src="<?php echo $produto['imagem'] ?>" alt="Imagem do Produto">
                             <div class="description">
                                 <p class="food-title"><?php echo $produto['nome']; ?></p>
                                 <p class="food-desc"><?php echo $produto['descricao'] ?></p>
-                                <p class="food-price">R$ <?php echo $produto['preco'] ?></p>
-                                <button>Adicionar no Carrinho</button>
+                                <div class="cartdiv">
+                                    <p class="food-price">R$ <?php echo $produto['preco'] ?></p>
+                                    <a class="cart" href="index.php?id=<?php echo $produto['id'];?>&adicionar_carrinho=ok">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                        </svg>
+
+                                    </a>
+                                </div>
+
                             </div>
                         </div>
                         <div class="division"></div>
@@ -58,8 +76,14 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
                             <div class="description">
                                 <p class="food-title"><?php echo $produts['nome']; ?></p>
                                 <p class="food-desc"><?php echo $produts['descricao'] ?></p>
-                                <p class="food-price">R$ <?php echo $produts['preco'] ?></p>
-                                <button>Adicionar no Carrinho</button>
+                                <div class="cartdiv">
+                                    <p class="food-price">R$ <?php echo $produts['preco'] ?></p>
+                                    <button class="cart"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                                        </svg>
+                                        o</button>
+                                </div>
+
                             </div>
                         </div>
                         <div class="division"></div>
@@ -83,9 +107,31 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
         background-size: cover;
     }
 
+    .cartdiv {
+        display: flex;
+        flex-direction: row;
+        width: 70vw;
+
+    }
+
+    html {
+        width: 100vw;
+    }
+
+    .cart {
+        height: 5.5rem;
+        width: 5rem;
+
+        background: none;
+        border-radius: 1rem;
+    }
+
+    svg {
+        color: green;
+    }
+
     .food-container {
         display: flex;
-
         align-items: center;
         gap: 4rem;
 
@@ -133,7 +179,8 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
     .maintitle {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-around;
+
 
     }
 

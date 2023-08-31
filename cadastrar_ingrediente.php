@@ -38,5 +38,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <footer>
         <p>&copy; 2023 LancheFácil. Todos os direitos reservados.</p>
     </footer>
+    
 </body>
 </html>
+<style>
+    header {
+        display: flex;
+        justify-content: center;
+
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    input {
+        width: 10rem;
+    }
+
+    textarea {
+        width: 10rem;
+    }
+
+    select {
+        width: 10rem;
+    }
+
+    body {
+        margin: 1rem;
+        padding: 0;
+        box-sizing: border-box;
+}
+</style>
