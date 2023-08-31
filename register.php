@@ -25,29 +25,104 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>LancheFácil - Registro</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    <header>
-        <h1>Registro</h1>
-    </header>
-    <form method="post" action="register.php">
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" required><br>
-        <label for="cpf">CPF:</label>
-        <input type="text" name="cpf" required><br>
-        <label for="endereco">Endereço:</label>
-        <textarea name="endereco" required></textarea><br>
-        <label for="email">Email:</label>
-        <input type="email" name="email" required><br>
-        <label for="senha">Senha:</label>
-        <input type="password" name="senha" required><br>
-        <a href="login.php"><input type="submit" value="Registrar"></a>
-    </form>
-    <footer>
-        <p>&copy; 2023 LancheFácil. Todos os direitos reservados.</p>
-    </footer>
+    <div class="container">
+        <header>
+            <h1>Pisco Coast</h1>
+            <h1>Registre-se</h1>
+        </header>
+        <form method="post" action="processar_registro.php" style="font-weight: bold;">
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome"><br>
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf"><br>
+            <label for="endereco">Endereço:</label>
+            <input name="endereco"></input><br>
+            <label for="email">Email:</label>
+            <input type="email" name="email"><br>
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha"><br>
+            <input type="submit" value="Registrar">
+            <p style="color: white; font-weight: bold;">Já tem uma conta? <a href="login.php">Faça login aqui</a></p>
+
+        </form>
+
+
+    </div>
 </body>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 </html>
+
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        background-image: url(./uploads/Wallpaper.jpg);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        background-color: grey;
+        background-color: rgba(10, 23, 55, 0.4);
+        padding: 1rem;
+        border-radius: 10px;
+        height: 42vh;
+    }
+
+    a {
+
+        color: white;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4rem;
+        font-family: sans-serif;
+        font-size: 1rem;
+        font-style: normal;
+
+    }
+
+    label {
+        color: white;
+    }
+
+    input {
+        border-radius: 7px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        background-color: grey;
+        background-color: rgba(10, 23, 55, 0.4);
+        padding: 2rem;
+        border-radius: 10px;
+        height: 45vh;
+    }
+
+    @media (max-width: 576px) {
+        form {
+            width: 70vw;
+            height: 50vh;
+            flex-shrink: 0;
+        }
+    }
+</style>
