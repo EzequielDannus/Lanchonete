@@ -56,7 +56,7 @@ $somacarrinho = $resultado2->fetch_assoc();
 
 <div id="chavePixField" style="display: none;">
     <label for="chavePix">Chave PIX:</label>
-    <p>321312312</p>
+    <p>04432430001</p>
 </div>
 
 <script>

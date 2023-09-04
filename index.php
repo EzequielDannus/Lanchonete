@@ -113,10 +113,10 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
     .cartdiv {
         display: flex;
         flex-direction: row;
-        width: 50vw;
+        width: 50vw;
 
     }
-    
+
     html {
         width: 100vw;
     }

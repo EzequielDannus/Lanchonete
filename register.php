@@ -39,15 +39,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </header>
         <form method="post" action="register.php" style="font-weight: bold;">
             <label for="nome">Nome:</label>
-            <input type="text" name="nome"><br>
+            <input type="text" name="nome" required><br>
             <label for="cpf">CPF:</label>
-            <input type="text" name="cpf"><br>
+            <input type="number" id="numero" name="cpf" oninput="limitarCaracteres(this, 11)"><br>
             <label for="endereco">Endereço:</label>
-            <input name="endereco"></input><br>
+            <input name="endereco" require></input><br>
             <label for="email">Email:</label>
-            <input type="email" name="email"><br>
+            <input type="email" name="email" required><br>
             <label for="senha">Senha:</label>
-            <input type="password" name="senha"><br>
+            <input type="password" name="senha" required><br>
             <input type="submit" value="Registrar">
             <p style="color: white; font-weight: bold;">Já tem uma conta? <a href="login.php">Faça login aqui</a></p>
 
@@ -126,3 +126,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 </style>
+<script>
+    function limitarCaracteres(elemento, maxCaracteres) {
+      if (elemento.value.length > maxCaracteres) {
+        elemento.value = elemento.value.slice(0, maxCaracteres);
+      }
+    }
+  </script>
