@@ -46,7 +46,15 @@ $somacarrinho = $resultado2->fetch_assoc();
             <img src="<?php echo $cart['imagem']?>" alt="">
             <p class="food-desc"><?php echo $cart['nome'] ?></p>
             <p class=""><?php echo $cart['descricao']?></p>
-            <p>Ingredientes: <?php echo implode(', ', $cart['ingredientes']); ?></p>
+            <p>Ingredientes:</p>
+            <ul>
+                <?php foreach($cart['ingredientes'] as $ingrediente) : ?>
+                    <li>
+                        <input type="checkbox" name="ingredientes_para_remover[]" value="<?php echo $ingrediente; ?>">
+                        <?php echo $ingrediente; ?>
+                    </li>
+                <?php endforeach ?>
+            </ul>
             <a href="delete.php?id_produto=<?php echo $cart['id_produto']; ?>"><img src="uploads/54324.png" alt="" width="20px"></a>
         <?php endforeach ?>
         <?php 
@@ -77,6 +85,8 @@ $somacarrinho = $resultado2->fetch_assoc();
     <label for="chavePix">Chave PIX:</label>
     <p>04432430001</p>
 </div>
+
+<input type="submit" name="remover_ingredientes" value="Remover Ingredientes">
 
 <script>
     const pagamentoSelect = document.getElementById('pagamento');
