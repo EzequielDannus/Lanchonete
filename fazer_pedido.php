@@ -7,12 +7,28 @@ if(!isset($_SESSION['id'])){
 $sql = "SELECT * FROM carrinho c JOIN produtos p ON p.id=c.id_produto WHERE id_cliente= {$_SESSION['id']};";
 $resultado = $conn->query($sql);
 
-$carrinho = $resultado->fetch_all(MYSQLI_ASSOC);
+// Obtenha os ingredientes relacionados aos produtos no carrinho
+$ingredientes_por_produto = array();
+while ($cart = $resultado->fetch_assoc()) {
+    $id_produto = $cart['id_produto'];
+    
+    $sql_ingredientes_produto = "SELECT i.nome as nome_ingrediente FROM ingredientes i JOIN lanche_ingredientes li ON i.id=li.id_ingrediente WHERE li.id_lanche = $id_produto;";
+    $resultado_ingredientes = $conn->query($sql_ingredientes_produto);
+    
+    $ingredientes = array();
+    while ($ingrediente = $resultado_ingredientes->fetch_assoc()) {
+        $ingredientes[] = $ingrediente['nome_ingrediente'];
+    }
+    
+    $cart['ingredientes'] = $ingredientes;
+    $ingredientes_por_produto[] = $cart;
+}
+
+$carrinho = $ingredientes_por_produto;
 
 $sqlsoma = "SELECT SUM(p.preco) FROM produtos p JOIN carrinho c ON p.id=c.id_produto WHERE id_cliente= {$_SESSION['id']}";
 $resultado2 = $conn->query($sqlsoma);
 $somacarrinho = $resultado2->fetch_assoc();
-
 ?>
 
 <!DOCTYPE html>
@@ -26,10 +42,13 @@ $somacarrinho = $resultado2->fetch_assoc();
         <h1>Carrinho</h1>
     </header>
     <form method="post" action="">
-        <?php foreach($carrinho as $cart) : ?>
+    <?php foreach($carrinho as $cart) : ?>
+            <img src="<?php echo $cart['imagem']?>" alt="">
             <p class="food-desc"><?php echo $cart['nome'] ?></p>
+            <p class=""><?php echo $cart['descricao']?></p>
+            <p>Ingredientes: <?php echo implode(', ', $cart['ingredientes']); ?></p>
             <a href="delete.php?id_produto=<?php echo $cart['id_produto']; ?>"><img src="uploads/54324.png" alt="" width="20px"></a>
-           <?php endforeach ?>
+        <?php endforeach ?>
         <?php 
         require_once("includes/db.php");
 
