@@ -26,7 +26,7 @@ while ($cart = $resultado->fetch_assoc()) {
 
 $carrinho = $ingredientes_por_produto;
 
-$sqlsoma = "SELECT SUM(p.preco) FROM produtos p JOIN carrinho c ON p.id=c.id_produto WHERE id_cliente= {$_SESSION['id']}";
+$sqlsoma = "SELECT SUM(p.preco) AS soma FROM produtos p JOIN carrinho c ON p.id=c.id_produto WHERE id_cliente= {$_SESSION['id']}";
 $resultado2 = $conn->query($sqlsoma);
 $somacarrinho = $resultado2->fetch_assoc();
 ?>
@@ -34,7 +34,7 @@ $somacarrinho = $resultado2->fetch_assoc();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LancheFácil - Fazer Pedido</title>
+    <title>Pisco Coast - Fazer Pedido</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -74,16 +74,18 @@ $somacarrinho = $resultado2->fetch_assoc();
             echo "<textarea name='endereco' required></textarea><br>";
         }
         ?>
-       <p>Valor Total: R$<?php echo $somacarrinho["SUM(p.preco)"]; ?></p>
+       <p>Valor Total: R$<?php echo $somacarrinho["soma"]; ?></p>
        <label for="pagamento">Forma de Pagamento:</label>
 <select name="pagamento" id="pagamento" required>
     <option value="dinheiro">Dinheiro</option>
     <option value="PIX">PIX</option>
 </select><br>
-
+<label for="">Troco (se necessario):</label>
+<input type="text" name="troco" id="troco" placeholder="R$ 0,00">
 <div id="chavePixField" style="display: none;">
     <label for="chavePix">Chave PIX:</label>
     <p>04432430001</p>
+    
 </div>
 
 <input type="submit" name="remover_ingredientes" value="Remover Ingredientes">
@@ -101,7 +103,7 @@ $somacarrinho = $resultado2->fetch_assoc();
     });
 </script>
 
-        <a href="index.php"><input type="submit" value="Enviar Pedido"></a>
+        <a href="index.php"><input type="submit" name="" value="Enviar Pedido"></a>
     </form>
     <footer>
     </footer>
