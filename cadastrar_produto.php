@@ -10,13 +10,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descricao = $_POST["descricao"];
     $tipo = $_POST["tipo"];
 
-    // Processar o upload da imagem
     $uploadDir = "uploads/";
     $nomeArquivo = uniqid() . "_" . $_FILES["imagem"]["name"];
     $caminhoArquivo = $uploadDir . $nomeArquivo;
 
     if (move_uploaded_file($_FILES["imagem"]["tmp_name"], $caminhoArquivo)) {
-        // Inserir dados no banco de dados
+        
         $sql = "INSERT INTO produtos (nome, tipo, preco, descricao, imagem) VALUES ('$nome', '$tipo', $preco, '$descricao', '$caminhoArquivo')";
         $resultado = $conn->query($sql);
 
@@ -36,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LancheFácil - Cadastro de Lanches</title>
+    <title>Pisco Coast - Cadastro de Lanches</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>

@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 
 <head>
-    <title>LancheFácil - Registro</title>
+    <title>Pisco Coast - Registro</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 

@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 
 <head>
-    <title>LancheFácil - Login</title>
+    <title>Pisco Coast - Login</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 

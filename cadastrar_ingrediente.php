@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LancheFácil - Cadastro de Ingredientes</title>
+    <title>Pisco Coast - Cadastro de Ingredientes</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
