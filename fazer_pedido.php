@@ -7,7 +7,6 @@ if(!isset($_SESSION['id'])){
 $sql = "SELECT * FROM carrinho c JOIN produtos p ON p.id=c.id_produto WHERE id_cliente= {$_SESSION['id']};";
 $resultado = $conn->query($sql);
 
-// Obtenha os ingredientes relacionados aos produtos no carrinho
 $ingredientes_por_produto = array();
 while ($cart = $resultado->fetch_assoc()) {
     $id_produto = $cart['id_produto'];

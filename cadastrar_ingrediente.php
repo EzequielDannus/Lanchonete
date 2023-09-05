@@ -1,7 +1,7 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once("includes/db.php");
-    if(!isset($_SESSION['id']) != 1){
+    if(!isset($_SESSION['id']) && ($_SESSION['id'] != 1)){
         header("location: login.php");
 }
     $nome = $_POST["nome"];

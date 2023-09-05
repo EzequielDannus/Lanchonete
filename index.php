@@ -3,7 +3,7 @@ include("includes/db.php");
 if(!isset($_SESSION['id'])){
     header("location: login.php");
 }
-// Verifique se o formulário foi enviado e o botão "adicionar_carrinho" foi clicado
+
 if (isset($_GET['adicionar_carrinho'])) {
     $produto_id = $_GET['id'];
 
