@@ -30,18 +30,20 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
         <header>
             <div class="titles">
                 <div class="maintitle">
+                    <?php if($_SESSION['id'] != 1) : ?>
                     <a href="fazer_pedido.php">Cart</a>
+                    <?php endif ?>
                     <h1>Bem-vindo ao PiscoCoast</h1>
                     <a class="logout" href="logout.php">logout</a>
                 </div>
-                <div class="title">
-                    <h2>Lanches</h2>
-                </div>
             </div>
 
+                    <?php if($_SESSION['id'] != 1) : ?>
+            <div class="title">
+                <h2>Lanches</h2>
+            </div>
         </header>
         <nav>
-            </div>
             <ul class="box">
                 <?php foreach ($produtos as $produto) : ?>
                     <?php if ($produto['tipo'] == "lanche") : ?>
@@ -53,13 +55,11 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
                                 <div class="cartdiv">
                                     <p class="food-price">R$ <?php echo $produto['preco'] ?></p>
                                     <a class="cart" href="index.php?id=<?php echo $produto['id'];?>&adicionar_carrinho=ok">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                                         </svg>
-
                                     </a>
                                 </div>
-
                             </div>
                         </div>
                         <div class="division"></div>
@@ -69,7 +69,6 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
             <div class="title">
                 <h2>Bebidas</h2>
             </div>
-
             <ul class="box">
                 <?php foreach ($produtos as $produts) : ?>
                     <?php if ($produts['tipo'] == "bebida") : ?>
@@ -81,12 +80,11 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
                                 <div class="cartdiv">
                                     <p class="food-price">R$ <?php echo $produts['preco'] ?></p>
                                     <a class="cart" href="index.php?id=<?php echo $produts['id'];?>&adicionar_carrinho=ok">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                                         </svg>
                                     </a>
                                 </div>
-
                             </div>
                         </div>
                         <div class="division"></div>
@@ -94,7 +92,22 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
                 <?php endforeach ?>
             </ul>
         </nav>
-
+        <?php endif ?>
+        <?php if($_SESSION['id'] == 1 ) : ?>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="cadastrar_produto.php">Cadastrar Produto</a>
+                    </li>
+                    <li>
+                        <a href="cadastrar_ingrediente.php">Cadastrar Ingrediente</a>
+                    </li>
+                    <li>
+                    <a href="relatoriovendas.php">Relatorio de Vendas</a>
+                    </li>
+                </ul>
+            </nav>
+        <?php endif ?>
 
     </form>
 </body>
