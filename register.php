@@ -8,15 +8,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $senha = password_hash($_POST["senha"], PASSWORD_DEFAULT);
 
-    // Verifique se o e-mail já está registrado
     $sql_check_email = "SELECT * FROM clientes WHERE email = '$email'";
     $resultado_check_email = $conn->query($sql_check_email);
 
     if ($resultado_check_email->num_rows > 0) {
-        // O e-mail já está registrado, exiba uma mensagem de erro
+        
         echo "Este e-mail já está registrado. Por favor, escolha outro e-mail.";
     } else {
-        // O e-mail não está registrado, continue com o processo de registro
         $sql_register = "INSERT INTO clientes (nome, cpf, endereco, email, senha) VALUES ('$nome', '$cpf', '$endereco', '$email', '$senha')";
 
         $resultado = $conn->query($sql_register);
