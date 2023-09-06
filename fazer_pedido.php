@@ -33,6 +33,7 @@ while ($cart = $resultado->fetch_assoc()) {
         $resultado22 = $conn->query($sql_pedido);
 
         if ($resultado) {
+            $sql_descontaigrediente = "UPDATE ingredientes SET quantidade = quantidade - 1 WHERE id IN (SELECT id_Ingrediente FROM lanche_ingredientes WHERE id_Lanche IN ( SELECT id_Lanche FROM pedidos WHERE id_cliente = {$_SESSION['id']}));";
             header("location: confirmacao.php");
         } else {
             echo "Erro ao fazer pedido do lanche: " . $conn->error;
