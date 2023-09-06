@@ -21,6 +21,21 @@ while ($cart = $resultado->fetch_assoc()) {
     
     $cart['ingredientes'] = $ingredientes;
     $ingredientes_por_produto[] = $cart;
+    
+    $uploadDir = "comprovantes/";
+    $nomeArquivo = uniqid() . "_" . $_FILES["imagem"]["name"];
+    $caminhoArquivo = $uploadDir . $nomeArquivo;
+    if(isset($_POST['enviar_pedido'])){
+  
+        $sql_pedido = "INSERT INTO pedidos (id_cliente, data_pedido, pagamento, troco, comprovante_pix, id_produtos) VALUES ({$_SESSION['id']}, NOW(), '{$_POST['pagamento']}', '{$_POST['troco']}', '$caminhoArquivo', {$cart['id']})";
+        $resultado22 = $conn->query($sql_pedido);
+
+        if ($resultado) {
+            echo "Pedido cadastrado com sucesso!";
+        } else {
+            echo "Erro ao fazer pedido do lanche: " . $conn->error;
+        }
+    }
 }
 
 $carrinho = $ingredientes_por_produto;
@@ -28,6 +43,10 @@ $carrinho = $ingredientes_por_produto;
 $sqlsoma = "SELECT SUM(p.preco) AS soma FROM produtos p JOIN carrinho c ON p.id=c.id_produto WHERE id_cliente= {$_SESSION['id']}";
 $resultado2 = $conn->query($sqlsoma);
 $somacarrinho = $resultado2->fetch_assoc();
+
+    $conn->close();
+    
+
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +59,7 @@ $somacarrinho = $resultado2->fetch_assoc();
     <header>
         <h1>Carrinho</h1>
     </header>
-    <form method="post" action="">
+    <form method="post" action="fazer_pedido.php" enctype="multipart/form-data">
     <?php foreach($carrinho as $cart) : ?>
             <img src="<?php echo $cart['imagem']?>" alt="">
             <p class="food-desc"><?php echo $cart['nome'] ?></p>
@@ -57,8 +76,8 @@ $somacarrinho = $resultado2->fetch_assoc();
             <a href="delete.php?id_produto=<?php echo $cart['id_produto']; ?>"><img src="uploads/54324.png" alt="" width="20px"></a>
         <?php endforeach ?>
         <?php 
-        require_once("includes/db.php");
-
+        include("includes/db.php");
+ 
         if (isset($_SESSION["user_id"])) {
             $userId = $_SESSION["id"];
             $sql = "SELECT endereco FROM clientes WHERE id = $userId";
@@ -72,6 +91,7 @@ $somacarrinho = $resultado2->fetch_assoc();
         } else {
             echo "<textarea name='endereco' required></textarea><br>";
         }
+        $conn->close();
         ?>
        <p>Valor Total: R$<?php echo $somacarrinho["soma"]; ?></p>
        <label for="pagamento">Forma de Pagamento:</label>
@@ -80,16 +100,24 @@ $somacarrinho = $resultado2->fetch_assoc();
     <option value="PIX">PIX</option>
 </select><br>
 <label for="">Troco (se necessario):</label>
+
 <input type="text" name="troco" id="troco" placeholder="R$ 0,00">
 <div id="chavePixField" style="display: none;">
     <label for="chavePix">Chave PIX:</label>
     <p>04432430001</p>
+    <label for="">Comprovante Pix:</label>
+    <input type="file" name="imagem" id="imagem">
+
     
 </div>
 
 <input type="submit" name="remover_ingredientes" value="Remover Ingredientes">
 
-<script>
+        <a href="index.php"><input type="submit" name="enviar_pedido" value="Enviar Pedido"></a>
+    </form>
+    <footer>
+    </footer>
+    <script>
     const pagamentoSelect = document.getElementById('pagamento');
     const chavePixField = document.getElementById('chavePixField');
 
@@ -102,9 +130,5 @@ $somacarrinho = $resultado2->fetch_assoc();
     });
 </script>
 
-        <a href="index.php"><input type="submit" name="" value="Enviar Pedido"></a>
-    </form>
-    <footer>
-    </footer>
 </body>
 </html>
