@@ -23,13 +23,21 @@ while ($cart = $resultado->fetch_assoc()) {
     $ingredientes_por_produto[] = $cart;
     
     $uploadDir = "comprovantes/";
+
+    
+    $carrinho = $ingredientes_por_produto;
+
+    $sqlsoma = "SELECT SUM(p.preco) AS soma FROM produtos p JOIN carrinho c ON p.id=c.id_produto WHERE id_cliente= {$_SESSION['id']}";
+    $resultado2 = $conn->query($sqlsoma);
+    $somacarrinho = $resultado2->fetch_assoc();
     
     if(isset($_POST['enviar_pedido'])){
+
         
         $nomeArquivo = uniqid() . "_" . $_FILES["imagem"]["name"];
         $caminhoArquivo = $uploadDir . $nomeArquivo;
 
-        $sql_pedido = "INSERT INTO pedidos (id_cliente, data_pedido, pagamento, troco, comprovante_pix, id_produtos) VALUES ({$_SESSION['id']}, NOW(), '{$_POST['pagamento']}', '{$_POST['troco']}', '$caminhoArquivo', {$cart['id']})";
+        $sql_pedido = "INSERT INTO pedidos (id_cliente, data_pedido, valor, pagamento, cliente_endereco, troco, comprovante_pix, id_produtos) VALUES ({$_SESSION['id']}, NOW(), {$somacarrinho["soma"]}, '{$_POST['pagamento']}', '{$_SESSION['endereco']}','{$_POST['troco']}', '$caminhoArquivo', {$cart['id']})";
         $resultado22 = $conn->query($sql_pedido);
             
 
@@ -48,14 +56,7 @@ while ($cart = $resultado->fetch_assoc()) {
     }
 }
 
-$carrinho = $ingredientes_por_produto;
-
-$sqlsoma = "SELECT SUM(p.preco) AS soma FROM produtos p JOIN carrinho c ON p.id=c.id_produto WHERE id_cliente= {$_SESSION['id']}";
-$resultado2 = $conn->query($sqlsoma);
-$somacarrinho = $resultado2->fetch_assoc();
-
-    var_dump($_SESSION['id']);
-
+    var_dump($_SESSION['endereco']);
     $conn->close();
     
 
@@ -72,6 +73,7 @@ $somacarrinho = $resultado2->fetch_assoc();
         <h1>Carrinho</h1>
     </header>
     <form method="post" action="fazer_pedido.php" enctype="multipart/form-data">
+    <?php if(isset($carrinho)) : ?>
     <?php foreach($carrinho as $cart) : ?>
             <img src="<?php echo $cart['imagem']?>" alt="">
             <p class="food-desc"><?php echo $cart['nome'] ?></p>
@@ -105,7 +107,10 @@ $somacarrinho = $resultado2->fetch_assoc();
         }
         $conn->close();
         ?>
+        
+
        <p>Valor Total: R$<?php echo $somacarrinho["soma"]; ?></p>
+       <?php endif ?>
        <label for="pagamento">Forma de Pagamento:</label>
 <select name="pagamento" id="pagamento" required>
     <option value="dinheiro">Dinheiro</option>
