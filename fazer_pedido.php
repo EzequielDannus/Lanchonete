@@ -31,10 +31,7 @@ while ($cart = $resultado->fetch_assoc()) {
         $resultado22 = $conn->query($sql_pedido);
 
         if ($resultado) {
-            $sql_excluir_carrinho = "DELETE FROM carrinho WHERE id_cliente = {$_SESSION['id']}";
-            $resultado_exclusao = $conn->query($sql_excluir_carrinho);
-            header("Location: confirmacao.php");
-            exit;
+            header("location: confirmacao.php");
         } else {
             echo "Erro ao fazer pedido do lanche: " . $conn->error;
         }
@@ -79,7 +76,7 @@ $somacarrinho = $resultado2->fetch_assoc();
             <a href="delete.php?id_produto=<?php echo $cart['id_produto']; ?>"><img src="uploads/54324.png" alt="" width="20px"></a>
         <?php endforeach ?>
         <?php 
-        include("includes/db.php");
+        $conn = new mysqli("localhost","root","","lanchonete"); 
  
         if (isset($_SESSION["user_id"])) {
             $userId = $_SESSION["id"];
@@ -116,7 +113,8 @@ $somacarrinho = $resultado2->fetch_assoc();
 
 <input type="submit" name="remover_ingredientes" value="Remover Ingredientes">
 
-        <a href="index.php"><input type="submit" name="enviar_pedido" value="Enviar Pedido"></a>
+        <input type="submit" name="enviar_pedido" value="Enviar Pedido">
+        <a href="index.php">Voltar Para o Cardapio</a>
     </form>
     <footer>
     </footer>
