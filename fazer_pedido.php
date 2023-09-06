@@ -31,7 +31,10 @@ while ($cart = $resultado->fetch_assoc()) {
         $resultado22 = $conn->query($sql_pedido);
 
         if ($resultado) {
-            echo "Pedido cadastrado com sucesso!";
+            $sql_excluir_carrinho = "DELETE FROM carrinho WHERE id_cliente = {$_SESSION['id']}";
+            $resultado_exclusao = $conn->query($sql_excluir_carrinho);
+            header("Location: confirmacao.php");
+            exit;
         } else {
             echo "Erro ao fazer pedido do lanche: " . $conn->error;
         }
