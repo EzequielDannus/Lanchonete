@@ -23,10 +23,12 @@ while ($cart = $resultado->fetch_assoc()) {
     $ingredientes_por_produto[] = $cart;
     
     $uploadDir = "comprovantes/";
-    $nomeArquivo = uniqid() . "_" . $_FILES["imagem"]["name"];
-    $caminhoArquivo = $uploadDir . $nomeArquivo;
+    
     if(isset($_POST['enviar_pedido'])){
-  
+        
+        $nomeArquivo = uniqid() . "_" . $_FILES["imagem"]["name"];
+        $caminhoArquivo = $uploadDir . $nomeArquivo;
+
         $sql_pedido = "INSERT INTO pedidos (id_cliente, data_pedido, pagamento, troco, comprovante_pix, id_produtos) VALUES ({$_SESSION['id']}, NOW(), '{$_POST['pagamento']}', '{$_POST['troco']}', '$caminhoArquivo', {$cart['id']})";
         $resultado22 = $conn->query($sql_pedido);
 

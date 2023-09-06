@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/09/2023 às 13:35
+-- Tempo de geração: 06/09/2023 às 13:09
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `lanchonete`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `carrinho`
+--
+
+CREATE TABLE `carrinho` (
+  `id` int(11) NOT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `id_produto` int(11) NOT NULL,
+  `quantidade` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `carrinho`
+--
+
+INSERT INTO `carrinho` (`id`, `id_cliente`, `id_produto`, `quantidade`) VALUES
+(72, 21, 16, 1),
+(73, 21, 14, 1),
+(74, 21, 15, 1),
+(75, 21, 17, 1);
 
 -- --------------------------------------------------------
 
@@ -41,7 +64,8 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`id`, `nome`, `cpf`, `endereco`, `senha`, `email`) VALUES
-(1, 'Adimin', '00000000000', 'xxxxxxxxxxxxx', '$2y$10$c95.CjqY4jN5R/YD8iSvqutQplFufGSdOMkGbi06mfYx9Gi8TieqG', 'adm@a');
+(1, 'Adimin', '00000000000', 'xxxxxxxxxxxxx', '$2y$10$c95.CjqY4jN5R/YD8iSvqutQplFufGSdOMkGbi06mfYx9Gi8TieqG', 'adm@a'),
+(21, 'Gustavo', '04432430001', 'Rua augusto Vicente', '$2y$10$oHqppSo0xhBq21k.oHnYWOtEEYh7Mr1frPOv/7ds.6AntsTQD0Q1W', 'a@a');
 
 -- --------------------------------------------------------
 
@@ -221,6 +245,14 @@ INSERT INTO `vendas` (`id`, `id_pedido`, `id_produto`, `quantidade`) VALUES
 --
 
 --
+-- Índices de tabela `carrinho`
+--
+ALTER TABLE `carrinho`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_carrinho_cliente` (`id_cliente`),
+  ADD KEY `fk_carrinho_produto` (`id_produto`);
+
+--
 -- Índices de tabela `clientes`
 --
 ALTER TABLE `clientes`
@@ -267,10 +299,16 @@ ALTER TABLE `vendas`
 --
 
 --
+-- AUTO_INCREMENT de tabela `carrinho`
+--
+ALTER TABLE `carrinho`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+--
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de tabela `ingredientes`
@@ -288,7 +326,7 @@ ALTER TABLE `lanche_ingredientes`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -305,6 +343,13 @@ ALTER TABLE `vendas`
 --
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `carrinho`
+--
+ALTER TABLE `carrinho`
+  ADD CONSTRAINT `fk_carrinho_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id`),
+  ADD CONSTRAINT `fk_carrinho_produto` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`);
 
 --
 -- Restrições para tabelas `lanche_ingredientes`

@@ -5,6 +5,9 @@
     $resultado=$conn->query($sql); 
     $cliente = $resultado->fetch_all(MYSQLI_ASSOC);
 
+    $sql_apagar_carrinho = "DELETE FROM carrinho WHERE id_cliente = {$_SESSION['id']}";
+    $resultado_apagar_carrinho = $conn->query($sql_apagar_carrinho);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
