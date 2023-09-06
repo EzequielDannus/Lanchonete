@@ -31,9 +31,16 @@ while ($cart = $resultado->fetch_assoc()) {
 
         $sql_pedido = "INSERT INTO pedidos (id_cliente, data_pedido, pagamento, troco, comprovante_pix, id_produtos) VALUES ({$_SESSION['id']}, NOW(), '{$_POST['pagamento']}', '{$_POST['troco']}', '$caminhoArquivo', {$cart['id']})";
         $resultado22 = $conn->query($sql_pedido);
+            
 
         if ($resultado) {
-            $sql_descontaigrediente = "UPDATE ingredientes SET quantidade = quantidade - 1 WHERE id IN (SELECT id_Ingrediente FROM lanche_ingredientes WHERE id_Lanche IN ( SELECT id_Lanche FROM pedidos WHERE id_cliente = {$_SESSION['id']}));";
+            $sql_descontaigrediente = "UPDATE ingredientes i
+            JOIN lanche_ingredientes li ON i.id = li.id_ingrediente
+            JOIN carrinho c ON li.id_lanche = c.id_produto
+            SET i.quantidade = i.quantidade - 1
+            WHERE c.id_cliente = {$_SESSION['id']};";
+            $resultado_desconta_ingrediente=$conn->query($sql_descontaigrediente);
+            
             header("location: confirmacao.php");
         } else {
             echo "Erro ao fazer pedido do lanche: " . $conn->error;
@@ -46,6 +53,8 @@ $carrinho = $ingredientes_por_produto;
 $sqlsoma = "SELECT SUM(p.preco) AS soma FROM produtos p JOIN carrinho c ON p.id=c.id_produto WHERE id_cliente= {$_SESSION['id']}";
 $resultado2 = $conn->query($sqlsoma);
 $somacarrinho = $resultado2->fetch_assoc();
+
+    var_dump($_SESSION['id']);
 
     $conn->close();
     
