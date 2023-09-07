@@ -22,7 +22,7 @@ while ($cart = $resultado->fetch_assoc()) {
     $cart['ingredientes'] = $ingredientes;
     $ingredientes_por_produto[] = $cart;
     
-    $uploadDir = "comprovantes/";
+    
 
     
     $carrinho = $ingredientes_por_produto;
@@ -31,15 +31,22 @@ while ($cart = $resultado->fetch_assoc()) {
     $resultado2 = $conn->query($sqlsoma);
     $somacarrinho = $resultado2->fetch_assoc();
     
+    $uploadDir = "comprovantes/";
+    $nomeArquivo = uniqid() . "_" . $_FILES["comprovantePix"]["name"];
+    $caminhoArquivo = $uploadDir . $nomeArquivo;
+    
+
     if(isset($_POST['enviar_pedido'])){
-
-        
-        $nomeArquivo = uniqid() . "_" . $_FILES["imagem"]["name"];
-        $caminhoArquivo = $uploadDir . $nomeArquivo;
-
+     
         $sql_pedido = "INSERT INTO pedidos (id_cliente, data_pedido, valor, pagamento, cliente_endereco, troco, comprovante_pix, id_produtos) VALUES ({$_SESSION['id']}, NOW(), {$somacarrinho["soma"]}, '{$_POST['pagamento']}', '{$_SESSION['endereco']}','{$_POST['troco']}', '$caminhoArquivo', {$cart['id']})";
         $resultado22 = $conn->query($sql_pedido);
             
+        if (move_uploaded_file($_FILES["comprovantePix"]["tmp_name"], $caminhoArquivo)) {
+            echo "deu";
+        } else {
+            // Houve um erro ao mover o arquivo
+            echo "Erro ao mover o arquivo para o diretório de destino.";
+        }
 
         if ($resultado) {
             $sql_descontaigrediente = "UPDATE ingredientes i
@@ -56,7 +63,7 @@ while ($cart = $resultado->fetch_assoc()) {
     }
 }
 
-    var_dump($_SESSION['endereco']);
+
     $conn->close();
     
 
@@ -78,6 +85,7 @@ while ($cart = $resultado->fetch_assoc()) {
             <img src="<?php echo $cart['imagem']?>" alt="">
             <p class="food-desc"><?php echo $cart['nome'] ?></p>
             <p class=""><?php echo $cart['descricao']?></p>
+            <div class="caixa-ingrediente">
             <p>Ingredientes:</p>
             <ul>
                 <?php foreach($cart['ingredientes'] as $ingrediente) : ?>
@@ -87,6 +95,7 @@ while ($cart = $resultado->fetch_assoc()) {
                     </li>
                 <?php endforeach ?>
             </ul>
+            </div>
             <a href="delete.php?id_produto=<?php echo $cart['id_produto']; ?>"><img src="uploads/54324.png" alt="" width="20px"></a>
         <?php endforeach ?>
         <?php 
@@ -123,7 +132,7 @@ while ($cart = $resultado->fetch_assoc()) {
     <label for="chavePix">Chave PIX:</label>
     <p>04432430001</p>
     <label for="">Comprovante Pix:</label>
-    <input type="file" name="imagem" id="imagem">
+    <input type="file" name="comprovantePix" id="imagem">
 
     
 </div>
