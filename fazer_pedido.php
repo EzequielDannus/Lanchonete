@@ -84,23 +84,28 @@ while ($cart = $resultado->fetch_assoc()) {
     </header>
     <form method="post" action="fazer_pedido.php" enctype="multipart/form-data">
     <?php if(isset($carrinho)) : ?>
-    <?php foreach($carrinho as $cart) : ?>
-            <img src="<?php echo $cart['imagem']?>" alt="">
-            <p class="food-desc"><?php echo $cart['nome'] ?></p>
-            <p class=""><?php echo $cart['descricao']?></p>
-            <div class="caixa-ingrediente">
-            <p>Ingredientes:</p>
-            <ul>
-                <?php foreach($cart['ingredientes'] as $ingrediente) : ?>
-                    <li>
-                        <input type="checkbox" name="ingredientes_para_remover[]" value="<?php echo $ingrediente; ?>">
-                        <?php echo $ingrediente; ?>
-                    </li>
+        <div class="pedidos">
+                <?php foreach ($carrinho as $cart) : ?>
+                    <div class="boxbox">
+                        <img src="<?php echo $cart['imagem'] ?>" alt="">
+                        <p class="food-desc"><?php echo $cart['nome'] ?></p>
+                        <div class="caixa-ingrediente">
+                            <p>Ingredientes:</p>
+                            <ul>
+                                <?php foreach ($cart['ingredientes'] as $ingrediente) : ?>
+                                    <li>
+                                        <input type="checkbox" name="ingredientes_para_remover[]" value="<?php echo $ingrediente; ?>">
+                                        <?php echo $ingrediente; ?>
+                                    </li>
+                                <?php endforeach ?>
+                            </ul>
+                        </div>
+                        <a href="delete.php?id_produto=<?php echo $cart['id_produto']; ?>"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                                <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
+                            </svg></a>
+                    </div>
                 <?php endforeach ?>
-            </ul>
-            </div>
-            <a href="delete.php?id_produto=<?php echo $cart['id_produto']; ?>"><img src="uploads/54324.png" alt="" width="20px"></a>
-        <?php endforeach ?>
+        </div>
         <?php 
         $conn = new mysqli("localhost","root","","lanchonete"); 
  
@@ -162,3 +167,51 @@ while ($cart = $resultado->fetch_assoc()) {
 
 </body>
 </html>
+<style>
+    .pedidos {
+        display: flex;
+        flex-direction: row;
+        padding: 1rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    img {
+        width: 10rem;
+        height: 10rem;
+    }
+
+    body {
+        margin: 0;
+        padding: 1rem;
+        box-sizing: border-box;
+        background-image: url(./uploads/bg.png);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+
+
+    p {
+        color: whitesmoke;
+    }
+
+    label {
+        color: whitesmoke;
+    }
+
+    ul {
+        color: whitesmoke;
+    }
+
+    h1 {
+        color: whitesmoke;
+    }
+
+    svg {
+        color: whitesmoke;
+    }
+</style>
