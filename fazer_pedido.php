@@ -145,8 +145,6 @@ while ($cart = $resultado->fetch_assoc()) {
     
 </div>
 
-<input type="submit" name="remover_ingredientes" value="Remover Ingredientes">
-
         <input type="submit" name="enviar_pedido" value="Enviar Pedido">
         <a href="index.php">Voltar Para o Cardapio</a>
     </form>
