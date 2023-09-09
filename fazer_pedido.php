@@ -22,7 +22,6 @@ while ($cart = $resultado->fetch_assoc()) {
     $cart['ingredientes'] = $ingredientes;
     $ingredientes_por_produto[] = $cart;
     
-    
 
     
     $carrinho = $ingredientes_por_produto;
@@ -30,8 +29,7 @@ while ($cart = $resultado->fetch_assoc()) {
     $sqlsoma = "SELECT SUM(p.preco) AS soma FROM produtos p JOIN carrinho c ON p.id=c.id_produto WHERE id_cliente= {$_SESSION['id']}";
     $resultado2 = $conn->query($sqlsoma);
     $somacarrinho = $resultado2->fetch_assoc();
-    
-    
+
     if (isset($_FILES["comprovantePix"]["name"])) {
     $uploadDir = "comprovantes/";
     $nomeArquivo = uniqid() . "_" . $_FILES["comprovantePix"]["name"];
@@ -46,18 +44,22 @@ while ($cart = $resultado->fetch_assoc()) {
         if (move_uploaded_file($_FILES["comprovantePix"]["tmp_name"], $caminhoArquivo)) {
             echo "deu";
         } else {
-            // Houve um erro ao mover o arquivo
             echo "Erro ao mover o arquivo para o diretório de destino.";
         }
 
         if ($resultado) {
+            $ingredientesParaRemover = $_POST['ingredientes_para_remover'];
+            $ingredientesParaRemoverString = "'" . implode("','", $ingredientesParaRemover) . "'";
+
             $sql_descontaigrediente = "UPDATE ingredientes i
-            JOIN lanche_ingredientes li ON i.id = li.id_ingrediente
-            JOIN carrinho c ON li.id_lanche = c.id_produto
-            SET i.quantidade = i.quantidade - 1
-            WHERE c.id_cliente = {$_SESSION['id']};";
-            $resultado_desconta_ingrediente=$conn->query($sql_descontaigrediente);
-            
+                JOIN lanche_ingredientes li ON i.id = li.id_ingrediente
+                JOIN carrinho c ON li.id_lanche = c.id_produto
+                SET i.quantidade = i.quantidade - 1
+                WHERE c.id_cliente = {$_SESSION['id']}
+                AND i.nome NOT IN ($ingredientesParaRemoverString);";
+
+            $resultado_desconta_ingrediente = $conn->query($sql_descontaigrediente);
+        
             header("location: confirmacao.php");
         } else {
             echo "Erro ao fazer pedido do lanche: " . $conn->error;
