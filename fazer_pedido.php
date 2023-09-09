@@ -31,6 +31,8 @@ while ($cart = $resultado->fetch_assoc()) {
     $resultado2 = $conn->query($sqlsoma);
     $somacarrinho = $resultado2->fetch_assoc();
     
+    
+    if (isset($_FILES["comprovantePix"]["name"])) {
     $uploadDir = "comprovantes/";
     $nomeArquivo = uniqid() . "_" . $_FILES["comprovantePix"]["name"];
     $caminhoArquivo = $uploadDir . $nomeArquivo;
@@ -62,8 +64,7 @@ while ($cart = $resultado->fetch_assoc()) {
         }
     }
 }
-
-
+}
     $conn->close();
     
 

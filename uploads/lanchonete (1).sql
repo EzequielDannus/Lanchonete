@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 06/09/2023 às 13:09
+-- Tempo de geração: 09/09/2023 às 22:37
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -34,16 +34,6 @@ CREATE TABLE `carrinho` (
   `quantidade` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `carrinho`
---
-
-INSERT INTO `carrinho` (`id`, `id_cliente`, `id_produto`, `quantidade`) VALUES
-(72, 21, 16, 1),
-(73, 21, 14, 1),
-(74, 21, 15, 1),
-(75, 21, 17, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -65,7 +55,9 @@ CREATE TABLE `clientes` (
 
 INSERT INTO `clientes` (`id`, `nome`, `cpf`, `endereco`, `senha`, `email`) VALUES
 (1, 'Adimin', '00000000000', 'xxxxxxxxxxxxx', '$2y$10$c95.CjqY4jN5R/YD8iSvqutQplFufGSdOMkGbi06mfYx9Gi8TieqG', 'adm@a'),
-(21, 'Gustavo', '04432430001', 'Rua augusto Vicente', '$2y$10$oHqppSo0xhBq21k.oHnYWOtEEYh7Mr1frPOv/7ds.6AntsTQD0Q1W', 'a@a');
+(21, 'Gustavo', '04432430001', 'Rua augusto Vicente', '$2y$10$oHqppSo0xhBq21k.oHnYWOtEEYh7Mr1frPOv/7ds.6AntsTQD0Q1W', 'a@a'),
+(22, 'Arthur', '11111111111', 'Rua alguma coisa', '$2y$10$gXMrCKHW8eeWOWqbxrEQD.WnR6g93gjt3RFs9WVnO4Rj5Bo4BTzIy', 'mai@mail'),
+(23, 'Arthur', '12222222222', 'Rua dasdas', '$2y$10$KwJgEt8/WZ1BlDXQNK1cOep19JjVEQ7kR.f.E7dCGH8bthO0k28lK', 'o@a');
 
 -- --------------------------------------------------------
 
@@ -84,15 +76,15 @@ CREATE TABLE `ingredientes` (
 --
 
 INSERT INTO `ingredientes` (`id`, `nome`, `quantidade`) VALUES
-(1, 'Coração de Boi', 500),
-(2, 'Vinagre de Vinho Tinto', 500),
-(3, 'Alho', 500),
-(4, 'Cominho em Pó', 500),
-(5, 'Páprica', 500),
-(6, 'Sal', 500),
-(7, 'Pimenta', 500),
-(8, 'Azeite de Oliva', 500),
-(9, 'Espetos de Metal ou Madeira', 500),
+(1, 'Coração de Boi', 491),
+(2, 'Vinagre de Vinho Tinto', 491),
+(3, 'Alho', 491),
+(4, 'Cominho em Pó', 491),
+(5, 'Páprica', 491),
+(6, 'Sal', 491),
+(7, 'Pimenta', 491),
+(8, 'Azeite de Oliva', 491),
+(9, 'Espetos de Metal ou Madeira', 491),
 (10, 'Abóbora', 500),
 (11, 'Batata-Doce', 500),
 (12, 'Fermento Biológico', 500),
@@ -102,26 +94,26 @@ INSERT INTO `ingredientes` (`id`, `nome`, `quantidade`) VALUES
 (16, 'Óleo Vegetal', 500),
 (17, 'Melado ou Calda de Açúcar', 500),
 (18, 'Pimentas Rocoto', 500),
-(19, 'Água', 500),
-(20, 'Vinagre', 500),
-(21, 'Sal', 500),
+(19, 'Água', 499),
+(20, 'Vinagre', 499),
+(21, 'Sal', 499),
 (22, 'Carne Moída', 500),
 (23, 'Cebola', 500),
 (24, 'Alho', 500),
 (25, 'Cominho em Pó', 500),
-(63, 'Frango Inteiro', 500),
-(64, 'Alho', 500),
-(65, 'Cominho em Pó', 500),
-(66, 'Páprica', 500),
-(67, 'Pimenta-do-Reino', 500),
-(68, 'Orégano Seco', 500),
-(69, 'Coentro', 500),
-(70, 'Cerveja Escura', 500),
-(71, 'Sal', 500),
-(72, 'Óleo Vegetal', 500),
-(73, 'Batatas', 500),
-(74, 'Molho Ají', 500),
-(75, 'Salada', 500);
+(63, 'Frango Inteiro', 468),
+(64, 'Alho', 468),
+(65, 'Cominho em Pó', 468),
+(66, 'Páprica', 468),
+(67, 'Pimenta-do-Reino', 468),
+(68, 'Orégano Seco', 468),
+(69, 'Coentro', 468),
+(70, 'Cerveja Escura', 468),
+(71, 'Sal', 468),
+(72, 'Óleo Vegetal', 468),
+(73, 'Batatas', 468),
+(74, 'Molho Ají', 468),
+(75, 'Salada', 468);
 
 -- --------------------------------------------------------
 
@@ -185,11 +177,22 @@ CREATE TABLE `pedidos` (
   `id` int(11) NOT NULL,
   `id_cliente` int(11) NOT NULL,
   `data_pedido` timestamp NOT NULL DEFAULT current_timestamp(),
+  `valor` int(11) NOT NULL,
   `pagamento` enum('dinheiro','PIX') NOT NULL,
+  `cliente_endereco` varchar(255) NOT NULL,
   `troco` decimal(10,2) DEFAULT NULL,
   `comprovante_pix` varchar(255) DEFAULT NULL,
   `id_produtos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `pedidos`
+--
+
+INSERT INTO `pedidos` (`id`, `id_cliente`, `data_pedido`, `valor`, `pagamento`, `cliente_endereco`, `troco`, `comprovante_pix`, `id_produtos`) VALUES
+(43, 23, '2023-09-07 18:28:46', 45, 'PIX', 'Rua dasdas', 0.00, 'comprovantes/64fa165e28d46_54324.png', 14),
+(44, 23, '2023-09-07 18:28:46', 45, 'PIX', 'Rua dasdas', 0.00, 'comprovantes/64fa165e2a502_54324.png', 15),
+(45, 23, '2023-09-09 19:33:07', 25, 'PIX', 'Rua dasdas', 0.00, 'comprovantes/64fcc87323403_imagem_2023-09-09_163304497.png', 14);
 
 -- --------------------------------------------------------
 
@@ -302,13 +305,13 @@ ALTER TABLE `vendas`
 -- AUTO_INCREMENT de tabela `carrinho`
 --
 ALTER TABLE `carrinho`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de tabela `ingredientes`
@@ -326,7 +329,7 @@ ALTER TABLE `lanche_ingredientes`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
