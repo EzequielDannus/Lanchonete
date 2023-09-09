@@ -35,6 +35,7 @@ foreach ($pedidos as $pedido) {
 if(empty($pedido['comprovante_pix'])){
     if ($clienteAtual !== null) {
         echo '<p>Valor Total: R$' . $valorTotalCliente . '</p>';
+        
         echo '</div><br>';
     }        
 }
@@ -45,7 +46,9 @@ else{
         
         foreach ($pedidos as $pedido) {
             if ($pedido['cliente_id'] == $clienteAtual) {
+                echo 'Comprovante Pix: <br>';
                 echo '<img src="' . $pedido['comprovante_pix'] . '" alt="" width="250px">';
+                echo '<a href="marcar_entregue.php?pedido_id=' . $pedido['id'] . '">Pedido Entregue</a>';
                 echo '</div><br>';
                 break;
             }
@@ -69,3 +72,98 @@ else{
     <?php endif ?>
 </body>
 </html>
+<style>
+    /* Reset de estilos básicos */
+body, h1, h2, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('background.jpg'); /* Substitua 'background.jpg' pela sua imagem de fundo desejada */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo semi-transparente */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.caixa {
+    border: 1px solid #ccc;
+    padding: 10px; /* Reduzimos o espaçamento interno */
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.95); /* Fundo semi-transparente */
+    border-radius: 5px;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul li {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #888;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Estilos para as imagens de comprovante */
+img.comprovante {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+/* Estilos para o botão "Pedido Entregue" */
+button.pedido-entregue {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button.pedido-entregue:hover {
+    background-color: #45a049;
+}
+
+</style>

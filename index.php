@@ -94,25 +94,58 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
         </nav>
         <?php endif ?>
         <?php if($_SESSION['id'] == 1 ) : ?>
+            <div class="adm">
             <nav>
-                <ul>
-                    <li>
-                        <a href="cadastrar_produto.php">Cadastrar Produto</a>
-                    </li>
-                    <li>
-                        <a href="cadastrar_ingrediente.php">Cadastrar Ingrediente</a>
-                    </li>
-                    <li>
-                    <a href="relatoriovendas.php">Relatorio de Vendas</a>
-                    </li>
-                </ul>
-            </nav>
+                    <ul>
+                        <li>
+                            <a href="cadastrar_produto.php">Cadastrar Produto</a>
+                        </li>
+                        <li>
+                            <a href="cadastrar_ingrediente.php">Cadastrar Ingrediente</a>
+                        </li>
+                        <li>
+                            <a href="pedido.php">Pedidos</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         <?php endif ?>
 
     </form>
 </body>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <style>
+    .adm {
+    text-align: center; 
+    flex-direction: column;
+}
+
+.adm nav ul {
+    list-style: none;
+    padding: 0;
+    flex-direction: column;
+}
+
+.adm nav ul li {
+    display: inline;
+    margin-right: 20px;
+    flex-direction: column;
+}
+
+.adm nav ul li:last-child {
+    margin-right: 0;
+    flex-direction: column;
+}
+
+.adm nav ul li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #007bff;
+    flex-direction: column;
+}
+
     body {
         margin: 0;
         padding: 0;
