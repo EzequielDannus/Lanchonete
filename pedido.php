@@ -48,7 +48,7 @@ else{
             if ($pedido['cliente_id'] == $clienteAtual) {
                 echo 'Comprovante Pix: <br>';
                 echo '<img src="' . $pedido['comprovante_pix'] . '" alt="" width="250px">';
-                echo '<a href="marcar_entregue.php?pedido_id=' . $pedido['id'] . '">Pedido Entregue</a>';
+                echo '<a href="marcar_entregue.php?pedido_id=' . $pedido['id_cliente'] . '">Pedido Entregue</a>';
                 echo '</div><br>';
                 break;
             }
