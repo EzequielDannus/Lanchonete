@@ -3,26 +3,24 @@ include("includes/db.php");
 
 if (!isset($_SESSION['id'])) {
     header("location: login.php");
-    exit; // Encerra o script para evitar processamento desnecessário
+    exit; 
 }
 
-// Verifica se o formulário foi enviado
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // ID do lanche
+
     $id_lanche = $_POST['id_lanche'];
 
-    // Array com os IDs dos ingredientes selecionados
     $ingredientes_selecionados = $_POST['ingredientes_selecionados'];
 
-    // Loop para inserir cada ingrediente no lanche
     foreach ($ingredientes_selecionados as $id_ingrediente) {
-        // Insere o registro na tabela lanche_ingrediente
+
         $sql_insert = "INSERT INTO lanche_ingredientes (id_lanche, id_ingrediente) VALUES ($id_lanche, $id_ingrediente)";
         $resultado_insert = $conn->query($sql_insert);
         
         if (!$resultado_insert) {
             echo "Erro ao adicionar ingrediente ao lanche: " . $conn->error;
-            exit; // Encerra o script em caso de erro
+            exit;
         }
     }
     
