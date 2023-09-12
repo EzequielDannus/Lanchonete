@@ -48,7 +48,7 @@ while ($cart = $resultado->fetch_assoc()) {
         }
 
         if ($resultado) {
-            $ingredientesParaRemover = $_POST['ingredientes_para_remover'];
+            if(isset($_POST['ingredientes_para_remover'])){$ingredientesParaRemover = $_POST['ingredientes_para_remover'];
             $ingredientesParaRemoverString = "'" . implode("','", $ingredientesParaRemover) . "'";
 
             $sql_descontaigrediente = "UPDATE ingredientes i
@@ -57,9 +57,19 @@ while ($cart = $resultado->fetch_assoc()) {
                 SET i.quantidade = i.quantidade - 1
                 WHERE c.id_cliente = {$_SESSION['id']}
                 AND i.nome NOT IN ($ingredientesParaRemoverString);";
-
+            
             $resultado_desconta_ingrediente = $conn->query($sql_descontaigrediente);
-        
+            }
+            
+            else{
+                $sql_descontaigrediente = "UPDATE ingredientes i
+                JOIN lanche_ingredientes li ON i.id = li.id_ingrediente
+                JOIN carrinho c ON li.id_lanche = c.id_produto
+                SET i.quantidade = i.quantidade - 1
+                WHERE c.id_cliente = {$_SESSION['id']}";
+
+                $resultado_desconta_ingrediente = $conn->query($sql_descontaigrediente);
+            }
             header("location: confirmacao.php");
         } else {
             echo "Erro ao fazer pedido do lanche: " . $conn->error;

@@ -9,7 +9,7 @@ if (isset($_GET['pedido_id'])) {
     $resultado_remover_pedido = $conn->query($sql_remover_pedido);
 
     if ($resultado_remover_pedido) {
-        echo "Pedido removido com sucesso.";
+        echo "Pedido enviado com sucesso.";
     } else {
         echo "Erro ao remover o pedido.";
     }
