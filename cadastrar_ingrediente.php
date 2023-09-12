@@ -7,17 +7,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST["nome"];
     $quantidade = $_POST["quantidade"];
 
-    // Processar a inserção no banco de dados
     $sql = "INSERT INTO ingredientes (nome, quantidade) VALUES ('$nome', $quantidade)";
     $resultado = $conn->query($sql);
 
     if ($resultado) {
-        echo "Ingrediente cadastrado com sucesso!";
+        header("location: lanche_ingrediente.php");
     } else {
         echo "Erro ao cadastrar o ingrediente: " . $conn->error;
     }
 
     $conn->close();
+    if (isset($_POST['voltar'])){
+        header("location: index.php");
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -66,6 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
         input[type="submit"] {
             background-color: #007bff;
@@ -76,7 +86,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 5px;
         }
 
+        input[type="button"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
         input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        
+        input[type="button"]:hover {
             background-color: #0056b3;
         }
 
@@ -100,8 +124,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="nome">Nome:</label>
         <input type="text" name="nome" required><br>
         <label for="quantidade">Quantidade:</label>
-        <input type="text" name="quantidade" required><br>
-        <input type="submit" value="Cadastrar">
+        <input type="number" name="quantidade" required><br>
+        <input type="submit" value="Cadastrar"><br>
+        <input type="button" value="Voltar" name="voltar">
     </form>
 </body>
 </html>

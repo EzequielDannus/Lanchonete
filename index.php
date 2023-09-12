@@ -106,6 +106,9 @@ $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
                         <li>
                             <a href="pedido.php">Pedidos</a>
                         </li>
+                        <li>
+                            <a href="lanche_ingrediente.php">Adicionar Ingrediente no Lanche</a>
+                        </li>
                     </ul>
                 </nav>
             </div>

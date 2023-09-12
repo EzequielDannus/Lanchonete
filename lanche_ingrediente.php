@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Loop para inserir cada ingrediente no lanche
     foreach ($ingredientes_selecionados as $id_ingrediente) {
         // Insere o registro na tabela lanche_ingrediente
-        $sql_insert = "INSERT INTO lanche_ingrediente (id_lanche, id_ingrediente) VALUES ($id_lanche, $id_ingrediente)";
+        $sql_insert = "INSERT INTO lanche_ingredientes (id_lanche, id_ingrediente) VALUES ($id_lanche, $id_ingrediente)";
         $resultado_insert = $conn->query($sql_insert);
         
         if (!$resultado_insert) {
@@ -26,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     
-    echo "Ingredientes adicionados ao lanche com sucesso!";
 }
 
 // Consulta todos os lanches disponíveis

@@ -21,11 +21,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($resultado) {
             echo "Lanche cadastrado com sucesso!";
+            header("location: cadastrar_ingrediente.php");
         } else {
             echo "Erro ao cadastrar o lanche: " . $conn->error;
         }
     } else {
         echo "Erro ao fazer o upload da imagem.";
+    }
+    if(isset($_POST['voltar'])){
+        header("location: index.php");
     }
 
     $conn->close();
@@ -95,7 +99,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 5px;
         }
 
+        input[type="button"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
         input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        
+        input[type="button"]:hover {
             background-color: #0056b3;
         }
 
@@ -130,6 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="imagem">Imagem:</label>
         <input type="file" name="imagem" accept="image/*" required><br>
         <input type="submit" value="Cadastrar">
+        <a href="index.php"><input type="button" value="Voltar" name="voltar"></a>
     </form>
 </body>
 </html>
