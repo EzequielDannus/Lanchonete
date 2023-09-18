@@ -3,7 +3,7 @@ include("includes/db.php");
 if(!isset($_SESSION['id'])){
     header("location: login.php");
 }
-
+else{
 if (isset($_GET['adicionar_carrinho'])) {
     $produto_id = $_GET['id'];
 
@@ -17,6 +17,7 @@ $sql = "SELECT * FROM produtos";
 $resultado = $conn->query($sql);
 
 $produtos = $resultado->fetch_all(MYSQLI_ASSOC);
+}
 ?>
 <!DOCTYPE html>
 <html>

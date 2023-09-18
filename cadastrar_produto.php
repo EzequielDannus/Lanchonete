@@ -98,7 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             cursor: pointer;
             border-radius: 5px;
         }
-
         input[type="button"] {
             background-color: #007bff;
             color: #fff;
