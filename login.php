@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1>Pisco Coast</h1>
             <h1>Login</h1>
         </header>
-        <form method="post" action="login.php">
+        <form method="post" action="login.php" autocomplete="off">
             <label for="email">Email:</label>
             <input type="email" name="email" required><br>
             <label for="senha">Senha:</label>

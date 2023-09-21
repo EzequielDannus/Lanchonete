@@ -91,7 +91,7 @@ while ($cart = $resultado->fetch_assoc()) {
     <header>
         <h1>Carrinho</h1>
     </header>
-    <form method="post" action="fazer_pedido.php" enctype="multipart/form-data">
+    <form method="post" action="fazer_pedido.php" enctype="multipart/form-data" autocomplete="off">
     <?php if(isset($carrinho)) : ?>
         <div class="pedidos">
                 <?php foreach ($carrinho as $cart) : ?>
