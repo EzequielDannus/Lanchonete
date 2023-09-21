@@ -50,13 +50,13 @@ else{
                 echo '<img src="' . $pedido['comprovante_pix'] . '" alt="" width="250px">';
                 echo '<a href="marcar_entregue.php?pedido_id=' . $pedido['id_cliente'] . '">Pedido Entregue</a>';
                 echo '</div><br>';
+                
                 break;
             }
         }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,6 +70,7 @@ else{
             <p>Sem Pedidos</p>
         </div>
     <?php endif ?>
+    <a href="index.php">Voltar</a>
 </body>
 </html>
 <style>
@@ -80,7 +81,10 @@ body {
     margin: 0;
     padding: 0;
 }
-
+a{
+    display: flex;
+    justify-content: center;
+}
 h1 {
     text-align: center;
     font-size: 24px;

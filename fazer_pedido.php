@@ -198,8 +198,6 @@ while ($cart = $resultado->fetch_assoc()) {
         overflow-y: auto;
     }
 
-
-
     p {
         color: whitesmoke;
     }

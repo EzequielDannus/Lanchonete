@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <header>
         <h1>Cadastro de Ingredientes</h1>
     </header>
-    <form method="post" action="">
+    <form method="post" action="" autocomplete="off">
         <label for="nome">Nome:</label>
         <input type="text" name="nome" required><br>
         <label for="quantidade">Quantidade:</label>

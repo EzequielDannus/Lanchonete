@@ -49,7 +49,7 @@ $conn->close();
 <body>
     <h1>Adicionar Ingredientes ao Lanche</h1>
     
-    <form method="post" action="">
+    <form method="post" action="" autocomplete="off">
         <label for="id_lanche">Selecione um Lanche:</label>
         <select name="id_lanche" required>
             <?php foreach ($lanches as $lanche) : ?>
