@@ -77,7 +77,6 @@ while ($cart = $resultado->fetch_assoc()) {
     }
 }
 }
-    $conn->close();
     
 
 ?>
@@ -117,22 +116,20 @@ while ($cart = $resultado->fetch_assoc()) {
                 <?php endforeach ?>
         </div>
         <?php 
-        $conn = new mysqli("localhost","root","","lanchonete"); 
  
-        if (isset($_SESSION["user_id"])) {
-            $userId = $_SESSION["id"];
-            $sql = "SELECT endereco FROM clientes WHERE id = $userId";
-            $result = $conn->query($sql);
-            if ($result->num_rows == 1) {
-                $row = $result->fetch_assoc();
-                $endereco = $row["endereco"];
-                echo "<label for=''>Endereço:</label>";
-                echo "<textarea name='endereco' required>$endereco</textarea><br>";
+            if (isset($_SESSION["id"])) {
+                $userId = $_SESSION["id"];
+                $sqlEnd = "SELECT endereco FROM clientes WHERE id = $userId";
+                $result = $conn->query($sqlEnd);
+                if (isset($result)) {
+                    $row = $result->fetch_assoc();
+                    $endereco = $row["endereco"];
+                    echo "<label for=''>Endereço:</label>";
+                    echo "<textarea name='endereco' required>{$endereco}</textarea><br>";
+                }
+            } else {
+                echo "<textarea name='endereco' required></textarea><br>";
             }
-        } else {
-            echo "<textarea name='endereco' required></textarea><br>";
-        }
-        $conn->close();
         ?>
         
 
